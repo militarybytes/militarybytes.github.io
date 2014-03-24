@@ -59,7 +59,7 @@
 				<ul>
 					<li><a href="#home">Home</a></li>
 					<li>
-						  <a href="#apps">Navy Apps</a>
+						  <a href="#">Navy Apps</a>
 						  <ul>
 							<li><a href="navy_app1.html">2014 Navy PFA</a></li>
 							<li><a href="navy_app2.html">Navy DEP Quiz</a></li>
@@ -478,16 +478,16 @@
 					<form action="javascript:;" method="post">
 						<div class="row">
 							<p class="left">
-								<label for="name">Name*</label>
-								<input type="text" name="name" id="name" value="" />
+<!-- 								<label for="name">Your Name</label>
+ -->								<input type="text" name="name" id="name" required="" placeholder="Your name" />
 							</p>
 							<p class="right">
-								<label for="email">Email*</label>
-								<input type="text" name="email" id="email" value="" />
+<!-- 								<label for="email">Your Email</label>
+ -->								<input type="text" name="email" id="email" required="" placeholder="Your email" />
 							</p>
 						</div>
 					
-						<div class="row">
+						<!-- <div class="row">
 							<p class="left">
 								<label for="website">Website</label>
 								<input type="text" name="website" id="website" value="" />
@@ -496,14 +496,14 @@
 								<label for="subject">Subject</label>
 								<input type="text" name="subject" id="subject" value="" />
 							</p>
-						</div>
+						</div> -->
 					
 						<p>
-							<label for="message" class="textarea">Message</label>
-							<textarea class="text" name="message" id="message"></textarea>
+							<!-- <label for="message" class="textarea">Tell us something.</label> -->
+							<textarea class="text" name="message" id="message" placeholder="Enter your message here."></textarea>
 						</p>
 					
-						<input type="submit" class="button white" value="Send &#x2192;" />
+						<input id="submit" name="submit" type="submit" class="button white" value="Send &#x2192;" />
 					</form>
 				
 				</div>
@@ -530,3 +530,55 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+	jQuery(function($)  
+{
+    $("#contact_form").submit(function()
+    {
+        var email = $("#email").val(); // get email field value
+        var name = $("#name").val(); // get name field value
+        var msg = $("#message").val(); // get message field value
+   
+        $.ajax(
+        {
+            type: "POST",
+            url: "https://mandrillapp.com/api/1.0/messages/send.json",
+            data: {
+                'key': 'csA_p0Y7RDmLBGS3v-7Ctw',
+                'message': {
+                    'from_email': email,
+                    'from_name': name,
+                    'headers': {
+                        'Reply-To': email
+                    },
+                    'subject': 'Military Bytes Contact Form Submission',
+                    'text': msg,
+                    'to': [
+                    {
+                        'email': 'militarybytes@gmail.com',
+                        'name': 'Anyone unless specified',
+                        'type': 'to'
+                    }]
+                }
+            }
+        })
+        .done(function(response) {
+            alert('Your message has been sent. Thank you!'); // show success message
+            $("#name").val(''); // reset field after successful submission
+            $("#email").val(''); // reset field after successful submission
+            $("#message").val(''); // reset field after successful submission
+        })
+        .fail(function(response) {
+            alert('Error sending message. Did you enter a valid email?');
+        });
+        return false; // prevent page refresh
+    });
+});
+
+
+
+
+
+
+</script>
