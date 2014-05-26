@@ -23,8 +23,10 @@ header {
 	header nav span.arrow {	background: url('../images/dark-nav_arrow.png') no-repeat; top: 59px; }
 	/* Sub Nav */
 	header nav ul li ul li { 
-		background: rgba(255,255,255,0.05);
-		border-color: #343434;	
+		/*background: rgba(255,255,255,0.05);
+		border-color: #343434;*/
+		background: black;
+		border-color: gray;		
 	}
 	header nav ul li ul li:last-child { border-color: #343434; }
 	header nav ul li ul li a { color: #777; }
